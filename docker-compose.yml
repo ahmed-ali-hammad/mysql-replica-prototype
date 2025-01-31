@@ -1,0 +1,46 @@
+version: '3.1'
+
+services:
+
+  master:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: db-master
+    restart: always
+    volumes:
+      - "./master/mysql-data:/var/lib/mysql"
+      - "./master/etc/my.cnf:/etc/mysql/my.cnf"
+    entrypoint: ["/bin/sh", "-c", "if [ ! -d '/var/lib/mysql/mysql' ]; then echo 'Initializing MySQL data directory...'; mysqld --initialize-insecure --user=root --datadir=/var/lib/mysql; fi && exec mysqld"]
+    networks:
+      - replication
+
+  replica-1:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: db-replica-1
+    restart: always
+    volumes:
+      - "./replica-1/mysql-data:/var/lib/mysql"
+      - "./replica-1/etc/my.cnf:/etc/mysql/my.cnf"
+    entrypoint: ["/bin/sh", "-c", "if [ ! -d '/var/lib/mysql/mysql' ]; then echo 'Initializing MySQL data directory...'; mysqld --initialize-insecure --user=root --datadir=/var/lib/mysql; fi && exec mysqld"]
+    networks:
+      - replication
+
+  replica-2:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: db-replica-2
+    restart: always
+    volumes:
+      - "./replica-2/mysql-data:/var/lib/mysql"
+      - "./replica-2/etc/my.cnf:/etc/mysql/my.cnf"
+    entrypoint: ["/bin/sh", "-c", "if [ ! -d '/var/lib/mysql/mysql' ]; then echo 'Initializing MySQL data directory...'; mysqld --initialize-insecure --user=root --datadir=/var/lib/mysql; fi && exec mysqld"]
+    networks:
+      - replication
+
+networks:
+  replication:
+    name: replication
