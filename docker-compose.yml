@@ -1,16 +1,15 @@
 version: '3.1'
 
 services:
-
-  master:
+  source:
     build: 
       context: .
       dockerfile: Dockerfile
-    container_name: db-master
+    container_name: db-source
     restart: always
     volumes:
-      - "./master/mysql-data:/var/lib/mysql"
-      - "./master/etc/my.cnf:/etc/mysql/my.cnf"
+      - "./source/mysql-data:/var/lib/mysql"
+      - "./source/etc/my.cnf:/etc/mysql/my.cnf"
     entrypoint: ["/bin/sh", "-c", "if [ ! -d '/var/lib/mysql/mysql' ]; then echo 'Initializing MySQL data directory...'; mysqld --initialize-insecure --user=root --datadir=/var/lib/mysql; fi && exec mysqld"]
     networks:
       - replication
