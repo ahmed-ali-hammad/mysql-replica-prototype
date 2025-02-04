@@ -38,7 +38,7 @@ docker compose up
 ```
 
 ### Replication & Backup Cheat Sheet
-- Mydumper/Myloader
+#### Mydumper/Myloader
 
 ```bash
 mydumper --host=db-host --user=db-user --password='password' --long-query-guard=1000  --outputdir=output-directory-of-choice --routines --triggers --compress --threads 20  --compress-protocol --trx-consistency-only --database=database-to-copy --verbose=3 -L mydumper-logs.txt
@@ -46,14 +46,16 @@ mydumper --host=db-host --user=db-user --password='password' --long-query-guard=
 myloader --user=db-user --password='password' --database=database-to-load-into --threads=40 --directory=directory-where-backup-exists --verbose=3
 ```
 
-- GTID Replication
+#### GTID Replication
 
-* These variables have to be set in the config file
-server_id=unique-number
-log_bin=ON 
-gtid_mode=ON
-enforce_gtid_consistency=ON
+These variables have to be set in the config file: 
+- server_id=unique-number
+- log_bin=ON
+- gtid_mode=ON
+- enforce_gtid_consistency=ON
 
+
+Mysql commands
 ```bash
 # On the master
 CREATE USER 'gtid_replication_user'@'%' IDENTIFIED BY 'pass';
