@@ -55,7 +55,7 @@ These variables have to be set in the config file:
 - enforce_gtid_consistency=ON
 
 
-Mysql commands
+Mysql commands to start replication
 ```bash
 # On the master
 CREATE USER 'gtid_replication_user'@'%' IDENTIFIED BY 'pass';
@@ -79,6 +79,25 @@ START REPLICA;
 SHOW REPLICA STATUS\G
 ```
 
+Troubleshooting commands (run on the replica)
+```bash
+SHOW REPLICA STATUS\G
+# Provides information about the replication status. If Seconds_Behind_Source is NULL, it indicates that the replication is not running.
+
+SELECT * FROM PERFORMANCE_SCHEMA.REPLICATION_APPLIER_STATUS_BY_WORKER\G
+# Provides information regarding LAST_ERROR_MESSAGE, which is very useful for diagnosing issues when replication stops.
+
+START REPLICA;
+# Starts/restarts the replication process.
+
+STOP REPLICA;
+# Stops the replication process.
+
+STOP REPLICA; SET GLOBAL sql_slave_skip_counter = 1; START REPLICA;
+# Skips one transaction on a replica and then resumes replication
+```
+
 ## ⛏️ Built Using <a name = "built_using"></a>
 - [MySQL](https://mysql.com/) - Database Server.
 - [MyDumper](https://github.com/mydumper/mydumper) - MySQL Logical Backup Tool.
+
