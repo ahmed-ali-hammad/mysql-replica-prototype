@@ -1,0 +1,20 @@
+direction: down
+
+source: SOURCE {
+  shape: cylinder
+}
+
+replicas: Replicas {
+  label.near: bottom-center
+
+  replica-1: REPLICA-1 {
+    shape: cylinder
+  }
+
+  replica-2: REPLICA-2 {
+    shape: cylinder
+  }
+}
+
+source -> replicas.replica-1: "GTID Replication"
+source -> replicas.replica-2: "GTID Replication"

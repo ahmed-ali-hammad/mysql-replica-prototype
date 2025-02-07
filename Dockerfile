@@ -38,3 +38,6 @@ RUN wget https://launchpad.net/mydumper/0.9/0.9.1/+download/mydumper-0.9.1.tar.g
 RUN ln -s /mydumper/mydumper /usr/bin/mydumper && \
     ln -s /mydumper/myloader /usr/bin/myloader
 
+# for percona-toolkit
+RUN apt-get install percona-toolkit
+
