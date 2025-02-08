@@ -39,5 +39,5 @@ RUN ln -s /mydumper/mydumper /usr/bin/mydumper && \
     ln -s /mydumper/myloader /usr/bin/myloader
 
 # for percona-toolkit
-RUN apt-get install percona-toolkit
+RUN apt-get -y install percona-toolkit
 
